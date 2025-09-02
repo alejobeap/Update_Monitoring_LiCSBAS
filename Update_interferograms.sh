@@ -98,7 +98,7 @@ done
 
 
 echo "Total combinaciones generadas: $(wc -l < "$OUTPUT_FILE")"
-echo "✅ Script terminado."
+echo "Script terminado."
 
 
 IFS_FILE=$(ls IFSforLiCSBAS_${current_dir}_${parent_dir}_${subsetnumero}.txt 2>/dev/null | head -n 1)
