@@ -15,7 +15,7 @@
 #  15: LiCSBAS15_mask_ts.py
 #  16: LiCSBAS16_filt_ts.py
 #  (Optional) 17: LiCSBAS17_combine_monitoring.py - To monitoring approach for volcanoes
-#   Optional 18: LiCSBAS_combine_monitoring.py - To monitoring approach for volcanoes
+#   Optional 18: LiCSBAS_update_network.py - To update network
 #
 # Status of COMET dev version - the experimental functions are turned on with 
 #
@@ -174,7 +174,8 @@ p16_TSdir=""    # default: TS_$GEOCmldir
 p16_nomask="n"	# y/n. default: n
 p16_n_para=$n_para   # default: # of usable CPU
 p17_TSdir=""    # default: TS_$GEOCmldir but use the TS_$GEOCmldir_update to combine
-
+p18_GEOCmldir="" # default: $GEOCmldir
+p18_TSdir="" # default: TS_$GEOCmldir but use the TS_$GEOCmldir_update to combine
 # eqoffs
 eqoffs_minmag="0"  # min magnitude of earthquakes to auto-find. 0 means skipping the estimation.
 eqoffs_txtfile="eqoffsets.txt"  # path to txt file containing custom-set earthquake dates (if eqoffs_minmag is disabled/0) or that will use results of auto-find
@@ -652,6 +653,20 @@ if [ $start_step -le 17 -a $end_step -ge 17 ];then
   fi
 fi
     
+if [ $start_step -le 18 -a $end_step -ge 18 ];then
+  p18_op=""
+  if [ ! -z "$p18_GEOCmldir" ];then p18_op="$p18_op -d $p18_GEOCmldir";
+    else p18_op="$p18_op -d $GEOCmldir"; fi
+  if [ ! -z "$p18_TSdir" ];then p18_op="$p18_op -t $p18_TSdir"; fi
+    else p18_op="$p18_op -t $TSdir"; fi
+      if [ "$check_only" == "y" ];then
+    echo "LiCSBAS_update_network.py $p18_op"
+  else
+    LiCSBAS_update_network.py $p18_op 2>&1 | tee -a $log
+    if [ ${PIPESTATUS[0]} -ne 0 ];then exit 1; fi
+  fi
+fi
+
 
 if [ $check_only == "y" ];then
   echo ""
