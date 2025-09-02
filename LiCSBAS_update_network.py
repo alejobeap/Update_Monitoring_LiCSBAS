@@ -1,16 +1,27 @@
 #!/usr/bin/env python3
+"""
+LiCSBAS_update_network.py
+-------------------------
+Script to update LiCSBAS interferogram (IFG) networks, handle bad IFGs, 
+and regenerate baseline plots.
+
+Usage:
+    python LiCSBAS_update_network.py -d <ifgdir> [-t <tsadir>]
+    e.g. LiCSBAS_update_network.py -d GEOCml2mask
+
+Arguments:
+    -d  Path to the IFG directory (mandatory).
+    -t  Path to the output TS_GEOCml* directory (optional).
+
+
+"""
+
+#!/usr/bin/env python3
 # P.Espin 2025-09-02
 # Update network for monitoring
 
-import os
-import sys
-import glob
-import subprocess
-import datetime as dt
-import numpy as np
-import LiCSBAS_plot_lib as plot_lib
-import LiCSBAS_io_lib as io_lib
-import LiCSBAS_tools_lib as tools_lib
+
+
 
 def run_bash_update() -> None:
     """Ejecuta el script bash para regenerar el archivo de baselines."""
