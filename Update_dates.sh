@@ -8,7 +8,7 @@ cp listRSLC.txt listRSLC_old.txt
 echo "Backed up listRSLC.txt to listRSLC_old.txt"
 
 # Step 2: Create a new updated list from the RSLC directory
-#ls -1 RSLC > listRSLC_updated.txt
+ls -1 RSLC > listRSLC_updated.txt
 echo "Generated new listRSLC_updated.txt from RSLC directory"
 
 # Step 3: Compare old and new list, create Updated_list.txt with new entries only
