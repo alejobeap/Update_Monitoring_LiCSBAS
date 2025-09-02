@@ -145,8 +145,46 @@ for CARPETA in "${CARPETAS[@]}"; do
 
 
 
-  
 
+  # Remove leading zeros by forcing numeric interpretation
+  trackID=$((10#$digits))
+  echo "trackID=$trackID"
+
+
+  echo "############# GACOS link ##############"
+  
+  # ############# GACOS link ##############
+  epochdir="$LiCSARweb/$trackID/$frameID/epochs"
+  gacosdir="$CARPETA/GACOS"
+  mkdir -p "$gacosdir"
+  
+  if [ -d "$epochdir" ]; then
+    for epoch_path in "$epochdir"/*; do
+      epoch=$(basename "$epoch_path")
+      gacosfile=$(ls "$epoch_path"/*sltd*.geo.tif 2>/dev/null | head -n 1)
+      if [[ -n "$gacosfile" && -f "$gacosfile" ]]; then
+         dest="$gacosdir/$(basename "$gacosfile")"
+         [ ! -e "$dest" ] && ln -s "$gacosfile" "$dest"
+      fi
+    done
+  fi
+
+  echo "############# ERA5 link ##############"
+  # ############# ERA5 link ##############
+  era5dir="$CARPETA/ERA5"
+  mkdir -p "$era5dir"
+  
+  if [ -d "$epochdir" ]; then
+    for epoch_path in "$epochdir"/*; do
+      epoch=$(basename "$epoch_path")
+      era5file=$(ls "$epoch_path"/*icams*.sltd.geo.tif 2>/dev/null | head -n 1)
+      if [[ -n "$era5file" && -f "$era5file" ]]; then
+         dest="$era5dir/$(basename "$era5file")"
+         [ ! -e "$dest" ] && ln -s "$era5file" "$dest"
+      fi
+    done
+  fi
+  
 
   # Clonar y mover Create_list_ifs
   echo "Clonando Matriz_Coherencia en $CARPETA..."
@@ -159,56 +197,6 @@ for CARPETA in "${CARPETAS[@]}"; do
     chmod +x *.sh
     # sbatch --wrap="./multilookRSLC.sh" (descomentar si se desea ejecutar)
     #./Run_all.sh
-
-
-    set -euo pipefail
-  
-    # Remove leading zeros by forcing numeric interpretation
-    trackID=$((10#$digits))
-    echo "trackID=$trackID"
-  
-  
-    echo "############# GACOS link ##############"
-  
-    LiCSARweb="/gws/nopw/j04/nceo_geohazards_vol1/public/LiCSAR_products"
-    epochdir="$LiCSARweb/$trackID/$frameID/epochs"
-    gacosdir="GACOS"
-  
-    # Ensure GACOS directory exists
-    mkdir -p "$gacosdir"
-  
-    # Iterate over epochs
-    for epoch in "$epochdir"/*; do
-      epoch=$(basename "$epoch")
-      gacosfile="$epochdir/$epoch/$epoch.sltd.geo.tif"
-  
-      if [[ -f "$gacosfile" ]]; then
-         ln -sf "$gacosfile" "$gacosdir/$epoch.sltd.geo.tif"
-      fi
-  
-    done
-  
-    echo "############# ERA5 link ##############"
-  
-    LiCSARweb="/gws/nopw/j04/nceo_geohazards_vol1/public/LiCSAR_products"
-    epochdir="$LiCSARweb/$trackID/$frameID/epochs"
-    era5dir="ERA5"
-  
-    # Ensure GACOS directory exists
-    mkdir -p "$era5dir"
-  
-    # Iterate over epochs
-    for epoch in "$epochdir"/*; do
-      epoch=$(basename "$epoch")
-      era5file="$epochdir/$epoch/$epoch.icams.sltd.geo.tif"
-  
-      if [[ -f "$era5file" ]]; then
-         ln -sf "$era5file" "$era5dir/$epoch.icams.sltd.geo.tif"
-      fi
-  
-    done
-  
-    
   )
 
 done
