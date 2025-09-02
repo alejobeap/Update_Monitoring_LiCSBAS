@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # P.Espin 2025-09-02
-  #Update network for monitoring
+  #Update network for monitoring based in LiCSBAS_plot_network.py and steps for bad and all interferograms from LiCSBAS13_inv.py
 
 """
 LiCSBAS_update_network.py
