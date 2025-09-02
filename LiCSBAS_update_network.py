@@ -6,7 +6,8 @@
 LiCSBAS_update_network.py
 -------------------------
 Script to update LiCSBAS interferogram (IFG) networks, handle bad IFGs, 
-and regenerate baseline plots.
+and regenerate baseline plots 
+The file need the all RSLC for create a baselines_update file
 
 Usage:
     python LiCSBAS_update_network.py -d <ifgdir> [-t <tsadir>]
