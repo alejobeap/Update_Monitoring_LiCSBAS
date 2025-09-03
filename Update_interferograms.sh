@@ -147,8 +147,8 @@ echo "Número total de combinaciones generadas: $line_count"
 
 
 
-echo "framebatch_gapfill.sh -l -I /work/scratch-pw3/licsar/alejobea/batchdir/${parent_dir}/${current_dir}/IFSforLiCSBAS_${current_dir}_${parent_dir}_update.txt 5 200 7 2"
+echo "framebatch_gapfill.sh -l -I -N /work/scratch-pw3/licsar/alejobea/batchdir/${parent_dir}/${current_dir}/IFSforLiCSBAS_${current_dir}_${parent_dir}_update.txt 5 200 7 2"
 
-framebatch_gapfill.sh -l -I /work/scratch-pw3/licsar/alejobea/batchdir/${parent_dir}/${current_dir}/IFSforLiCSBAS_${current_dir}_${parent_dir}_update.txt 5 200 7 2
+framebatch_gapfill.sh -l -I -N /work/scratch-pw3/licsar/alejobea/batchdir/${parent_dir}/${current_dir}/IFSforLiCSBAS_${current_dir}_${parent_dir}_update.txt 5 200 7 2
 
 
