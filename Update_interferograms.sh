@@ -100,40 +100,37 @@ done
 echo "Total combinaciones generadas: $(wc -l < "$OUTPUT_FILE")"
 echo "Script terminado."
 
+# Archivo de salida donde se acumula todo
+OUTPUT_FILE="IFSforLiCSBAS_${current_dir}_${parent_dir}_${subsetnumero}_update.txt"
 
 IFS_FILE=$(ls IFSforLiCSBAS_${current_dir}_${parent_dir}_${subsetnumero}.txt 2>/dev/null | head -n 1)
+echo "$IFS_FILE"
 
-
-if [[ ${#IFS_FILES[@]} -gt 0 ]]; then
-    IFS_FILE="${IFS_FILES[0]}"
+if [[ -n "$IFS_FILE" ]]; then
     echo "Found $IFS_FILE, using only the last 20 lines to filter combinations."
 
-    # Leer últimas 20 líneas reales del archivo (sin encabezados vacíos o líneas en blanco)
     mapfile -t last_lines < <(grep -v '^$' "$IFS_FILE" | tail -n 20)
 
-    for name in "${names[@]}"; do
-        for line in "${last_lines[@]}"; do
+    #for name in "${names[@]}"; do
+    for line in "${last_lines[@]}"; do
             if [[ "$line" == *"$name"* ]]; then
                 echo "$line" >> "$OUTPUT_FILE"
             fi
-        done
     done
-
+    #done
 else
     echo "IFSforLiCSBAS*.txt not found. Using second column of TS*/info/13resid.txt"
 
     for file in TS*/info/13resid.txt; do
         if [[ -f "$file" ]]; then
-            # Leer últimas 20 líneas reales (sin encabezado ni líneas vacías)
             mapfile -t last_lines < <(tail -n +2 "$file" | grep -v '^$' | tail -n 20)
 
-            for name in "${names[@]}"; do
-                for line in "${last_lines[@]}"; do
+            #for name in "${names[@]}"; do
+            for line in "${last_lines[@]}"; do
                     if [[ "$line" == *"$name"* ]]; then
-                        # Extraer solo la primera columna
                         echo "$line" | awk '{ print $1 }' >> "$OUTPUT_FILE"
                     fi
-                done
+                #done
             done
         fi
     done
@@ -147,8 +144,7 @@ echo "Número total de combinaciones generadas: $line_count"
 
 
 
-echo "framebatch_gapfill.sh -l -I -N /work/scratch-pw3/licsar/alejobea/batchdir/${parent_dir}/${current_dir}/IFSforLiCSBAS_${current_dir}_${parent_dir}_update.txt 5 200 7 2"
+echo "framebatch_gapfill.sh -l -I /work/scratch-pw3/licsar/alejobea/batchdir/${parent_dir}/${current_dir}/IFSforLiCSBAS_${current_dir}_${parent_dir}_${subsetnumero}_update.txt 5 200 7 2"
 
-framebatch_gapfill.sh -l -N -I /work/scratch-pw3/licsar/alejobea/batchdir/${parent_dir}/${current_dir}/IFSforLiCSBAS_${current_dir}_${parent_dir}_update.txt 5 200 7 2
-
+framebatch_gapfill.sh -l -N -I /work/scratch-pw3/licsar/alejobea/batchdir/${parent_dir}/${current_dir}/IFSforLiCSBAS_${current_dir}_${parent_dir}_${subsetnumero}_update.txt 5 200 7 2
 
