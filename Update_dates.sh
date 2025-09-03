@@ -4,7 +4,7 @@
 set -e
 
 # Step 1: Backup the old RSLC list
-cp listRSLC.txt listRSLC_old.txt
+cp listarslc.txt listRSLC_old.txt
 echo "Backed up listRSLC.txt to listRSLC_old.txt"
 
 # Step 2: Create a new updated list from the RSLC directory
